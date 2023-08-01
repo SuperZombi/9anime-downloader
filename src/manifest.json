@@ -6,6 +6,7 @@
    "icons": {
       "128": "images/logo.png"
    },
+   "homepage_url": "https://github.com/SuperZombi/9anime-downloader",
    "permissions": ["webRequest", "tabs"],
    "host_permissions": [
       "<all_urls>"
