@@ -1,1 +1,1 @@
-# [9anime](https://9animetv.to/) Downloader
+# 9anime Downloader
