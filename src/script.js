@@ -18,7 +18,6 @@ window.onload = _=>{
 	}
 	div.onclick = show_download_menu
 	parrent.insertBefore(div, parrent.querySelector(".clearfix"))
-	createDownloadMenu([])
 }
 
 function createDownloadMenu(array){
@@ -40,14 +39,17 @@ function createDownloadMenu(array){
 		div.style.background = "rgba(93, 93, 93, 0.5)"
 		div.style.backdropFilter = "blur(5px)"
 		div.style.position = "absolute"
-		div.style.borderRadius = "6px"
-		div.style.padding = "4px"
+		div.style.borderRadius = "8px"
+		div.style.padding = "2px"
 		div.style.filter = "drop-shadow(black 2px 4px 6px)"
 		div.style.zIndex = "100"
 		div.style.right = "0"
 		div.style.top = "100%"
-		div.style.display = "none"
+		div.style.display = "flex"
+		div.style.flexDirection = "column"
+		div.style.gap = "2px"
 		div.style.opacity = 0
+		div.style.visablility = "hidden"
 		div.style.transform = "scale(0)"
 		div.style.transformOrigin = "right top"
 		div.style.transition = "0.5s"
@@ -60,14 +62,14 @@ function createDownloadMenu(array){
 
 	if (array.length > 0){
 		let div_target = document.querySelector("#downloadMenu")
-		let div_ = document.createElement("div")
+		let elements = []
 		for (const e of array) {
 			let title = `${e.resolution.height}p${e.fps}`
 			let element = makeLink(title, e.url);
-			div_.appendChild(element);
+			elements.push(element);
 		}
 		div_target.innerHTML = ""
-		div_target.appendChild(div_)
+		div_target.append(...elements)
 	}
 }
 
@@ -80,7 +82,6 @@ function makeLink(title, href){
 	a.style.color = "white"
 	a.style.textDecoration = "none"
 	a.style.padding = "4px 5px"
-	a.style.margin = "2px 0"
 	a.style.borderRadius = "6px"
 	a.style.transition = "0.2s"
 	a.style.cursor = "pointer"
@@ -106,8 +107,8 @@ function show_download_menu(){
 	setTimeout(function(){
 		document.body.onclick = hide_download_menu
 	}, 50)
-	if (div.style.display == "none"){
-		div.style.display = "block"
+	if (div.style.visablility = "hidden"){
+		div.style.visablility = "visible"
 		setTimeout(function(){
 			div.style.transform = "scale(1)"
 			div.style.opacity = 1
@@ -131,7 +132,7 @@ function hide_download_menu(event){
 			document.body.onclick = ""
 		}, 50)
 		timer = setTimeout(function(){
-			div.style.display = "none"
+			div.style.visablility = "hidden"
 		}, 400)
 	}
 }
@@ -140,7 +141,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	var parser = new m3u8Parser.Parser();
 	parser.push(message.data);
 	parser.end();
-	let array = [];
+	let arr = [];
 	for (const video of parser.manifest.playlists) {
 		let absoluteUrl = new URL(video.uri, message.url)
 		let temp = {
@@ -148,7 +149,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			"resolution": video.attributes.RESOLUTION,
 			"url": absoluteUrl.href
 		}
-		array.push(temp)
+		arr.push(temp)
 	}
-	createDownloadMenu(array)
+	createDownloadMenu(arr)
 });

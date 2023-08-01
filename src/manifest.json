@@ -3,9 +3,12 @@
    "version": "1.0.0",
    "name": "9Anime Downloader",
    "description": "Download anime from 9animetv",
+   "icons": {
+      "128": "images/logo.png"
+   },
    "permissions": ["webRequest", "tabs"],
    "host_permissions": [
-      "https://9animetv.to/*"
+      "<all_urls>"
    ],
    "background": {
       "service_worker": "background.js"
