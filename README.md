@@ -4,8 +4,9 @@
     <img align="left" src="https://shields.io/badge/version-v1.0.0-blue">
     <a href="#donate">💲Support the Project</a>
 </p>
-
-<img src="github/images/main.png"  width="500px">
+<p align="center">
+    <img src="github/images/main.png"  width="500px">
+</p>
 
 ## How to Install:
 ### Chrome:
