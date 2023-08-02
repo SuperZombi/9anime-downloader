@@ -1,6 +1,6 @@
 <h1 align="center">9anime Downloader</h1>
 <p align="right">
-    <img align="left" src="https://shields.io/badge/version-v1.0.0-blue">
+    <img align="left" src="https://shields.io/badge/version-v2.0.0-blue">
     <a href="#donate">💲Support the Project</a>
 </p>
 <p align="center">
