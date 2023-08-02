@@ -1,16 +1,23 @@
 {
    "manifest_version": 3,
-   "version": "1.0.0",
+   "version": "2.0.0",
    "name": "9Anime Downloader",
    "description": "Download anime from 9animetv",
    "icons": {
       "128": "images/logo.png"
    },
    "homepage_url": "https://github.com/SuperZombi/9anime-downloader",
-   "permissions": ["webRequest", "tabs"],
+   "permissions": ["storage", "webRequest", "tabs"],
    "host_permissions": [
       "<all_urls>"
    ],
+   "options_ui": {
+      "open_in_tab": false,
+      "page": "menu/options.html"
+   },
+   "action": {
+      "default_popup": "menu/options.html"
+   },
    "background": {
       "service_worker": "background.js"
    },

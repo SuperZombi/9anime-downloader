@@ -18,138 +18,157 @@ window.onload = _=>{
 	}
 	div.onclick = show_download_menu
 	parrent.insertBefore(div, parrent.querySelector(".clearfix"))
-}
+	createDownloadMenu([])
 
-function createDownloadMenu(array){
-	let loader = `
-		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" height="50px" style="margin:auto;display:block;" >
-			<g transform="translate(25 50)">
-			<circle cx="0" cy="0" r="6" fill="lightblue"><animateTransform attributeName="transform" type="scale" begin="-0.3333333333333333s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform></circle></g>
-			<g transform="translate(50 50)">
-			<circle cx="0" cy="0" r="6" fill="lightblue"><animateTransform attributeName="transform" type="scale" begin="-0.16666666666666666s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform></circle></g>
-			<g transform="translate(75 50)">
-			<circle cx="0" cy="0" r="6" fill="lightblue"><animateTransform attributeName="transform" type="scale" begin="0s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform></circle></g>
-		</svg>
-	`
-	if (!document.querySelector("#downloadMenu")){
-		let div = document.createElement("div")
-		div.id = "downloadMenu"
-		div.style.minHeight = "50px"
-		div.style.minWidth = "120px"
-		div.style.background = "rgba(93, 93, 93, 0.5)"
-		div.style.backdropFilter = "blur(5px)"
-		div.style.position = "absolute"
-		div.style.borderRadius = "8px"
-		div.style.padding = "2px"
-		div.style.filter = "drop-shadow(black 2px 4px 6px)"
-		div.style.zIndex = "100"
-		div.style.right = "0"
-		div.style.top = "100%"
-		div.style.display = "flex"
-		div.style.flexDirection = "column"
-		div.style.gap = "2px"
-		div.style.opacity = 0
-		div.style.visablility = "hidden"
-		div.style.transform = "scale(0)"
-		div.style.transformOrigin = "right top"
-		div.style.transition = "0.5s"
-		div.innerHTML = loader;
-		document.querySelector("#downloadButton").appendChild(div)
-	}
-	else{
-		document.querySelector("#downloadMenu").innerHTML = loader;
-	}
-
-	if (array.length > 0){
-		let div_target = document.querySelector("#downloadMenu")
-		let elements = []
-		for (const e of array) {
-			let title = `${e.resolution.height}p${e.fps}`
-			let element = makeLink(title, e.url);
-			elements.push(element);
-		}
-		div_target.innerHTML = ""
-		div_target.append(...elements)
-	}
-}
-
-function makeLink(title, href){
-	let a = document.createElement("a")
-	a.href = href
-	a.target = '_blank'
-
-	a.style.display = "block"
-	a.style.color = "white"
-	a.style.textDecoration = "none"
-	a.style.padding = "4px 5px"
-	a.style.borderRadius = "6px"
-	a.style.transition = "0.2s"
-	a.style.cursor = "pointer"
-	a.style.textAlign = "center"
-
-	a.onmouseover = _=>{
-		a.style.background = "#5a2e98"
-	}
-	a.onmouseout = _=>{
-		a.style.background = ""
-	}
-
-	let span = document.createElement("span")
-	span.innerHTML = title
-
-	a.appendChild(span)
-	return a;
-}
-
-var timer;
-function show_download_menu(){
-	let div = document.querySelector("#downloadMenu")
-	setTimeout(function(){
-		document.body.onclick = hide_download_menu
-	}, 50)
-	if (div.style.visablility = "hidden"){
-		div.style.visablility = "visible"
-		setTimeout(function(){
-			div.style.transform = "scale(1)"
-			div.style.opacity = 1
-		}, 10)
-	}
-	else{
-		if (timer) {
-			clearTimeout(timer);
-			div.style.transform = "scale(1)"
-			div.style.opacity = 1
-		}
-	}
-}
-function hide_download_menu(event){
-	let div = document.querySelector("#downloadMenu")
-	let path = event.path || (event.composedPath && event.composedPath());
-	if (!path.includes(div)){
-		div.style.transform = "scale(0)"
-		div.style.opacity = 0
-		setTimeout(function(){
-			document.body.onclick = ""
-		}, 50)
-		timer = setTimeout(function(){
+	function createDownloadMenu(array){
+		let loader = `
+			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 100" height="50px" style="margin:auto;display:block;" >
+				<g transform="translate(25 50)">
+				<circle cx="0" cy="0" r="6" fill="lightblue"><animateTransform attributeName="transform" type="scale" begin="-0.3333333333333333s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform></circle></g>
+				<g transform="translate(50 50)">
+				<circle cx="0" cy="0" r="6" fill="lightblue"><animateTransform attributeName="transform" type="scale" begin="-0.16666666666666666s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform></circle></g>
+				<g transform="translate(75 50)">
+				<circle cx="0" cy="0" r="6" fill="lightblue"><animateTransform attributeName="transform" type="scale" begin="0s" calcMode="spline" keySplines="0.3 0 0.7 1;0.3 0 0.7 1" values="0;1;0" keyTimes="0;0.5;1" dur="1s" repeatCount="indefinite"></animateTransform></circle></g>
+			</svg>
+		`
+		if (!document.querySelector("#downloadMenu")){
+			let div = document.createElement("div")
+			div.id = "downloadMenu"
+			div.style.minHeight = "50px"
+			div.style.minWidth = "120px"
+			div.style.background = "rgba(93, 93, 93, 0.5)"
+			div.style.backdropFilter = "blur(5px)"
+			div.style.position = "absolute"
+			div.style.borderRadius = "8px"
+			div.style.padding = "2px"
+			div.style.filter = "drop-shadow(black 2px 4px 6px)"
+			div.style.zIndex = "100"
+			div.style.right = "0"
+			div.style.top = "100%"
+			div.style.display = "flex"
+			div.style.flexDirection = "column"
+			div.style.gap = "2px"
+			div.style.opacity = 0
 			div.style.visablility = "hidden"
-		}, 400)
-	}
-}
-
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-	var parser = new m3u8Parser.Parser();
-	parser.push(message.data);
-	parser.end();
-	let arr = [];
-	for (const video of parser.manifest.playlists) {
-		let absoluteUrl = new URL(video.uri, message.url)
-		let temp = {
-			"fps": video.attributes['FRAME-RATE'],
-			"resolution": video.attributes.RESOLUTION,
-			"url": absoluteUrl.href
+			div.style.transform = "scale(0)"
+			div.style.transformOrigin = "right top"
+			div.style.transition = "0.5s"
+			div.innerHTML = loader;
+			document.querySelector("#downloadButton").appendChild(div)
 		}
-		arr.push(temp)
+		else{
+			document.querySelector("#downloadMenu").innerHTML = loader;
+		}
+
+		if (array.length > 0){
+			chrome.storage.sync.get({m3u8: false}, results => {
+				let div_target = document.querySelector("#downloadMenu")
+				let elements = []
+				for (const e of array) {
+					let title = `${e.resolution.height}p${e.fps}`
+					let element = makeLink(title, e.url, results.m3u8);
+					elements.push(element);
+				}
+				div_target.innerHTML = ""
+				div_target.append(...elements)
+			})
+		}
 	}
-	createDownloadMenu(arr)
-});
+
+	function makeLink(title, href, m3u8){
+		let a = document.createElement("a")
+		a.href = href
+
+		if (m3u8){
+			let name = document.querySelector(".film-name").innerHTML
+			let episode = document.querySelector(".block_area-episodes .ep-item.active").innerText
+			a.href = `m3u8://?url=${href}&name=${name}_ep${episode}`
+		}
+
+		a.style.display = "block"
+		a.style.color = "white"
+		a.style.textDecoration = "none"
+		a.style.padding = "4px 5px"
+		a.style.borderRadius = "6px"
+		a.style.transition = "0.2s"
+		a.style.cursor = "pointer"
+		a.style.textAlign = "center"
+
+		a.onmouseover = _=>{
+			a.style.background = "#5a2e98"
+		}
+		a.onmouseout = _=>{
+			a.style.background = ""
+		}
+
+		let span = document.createElement("span")
+		span.innerHTML = title
+
+		a.appendChild(span)
+		return a;
+	}
+
+	var timer;
+	function show_download_menu(){
+		let div = document.querySelector("#downloadMenu")
+		setTimeout(function(){
+			document.body.onclick = hide_download_menu
+		}, 50)
+		if (div.style.visablility = "hidden"){
+			div.style.visablility = "visible"
+			setTimeout(function(){
+				div.style.transform = "scale(1)"
+				div.style.opacity = 1
+			}, 10)
+		}
+		else{
+			if (timer) {
+				clearTimeout(timer);
+				div.style.transform = "scale(1)"
+				div.style.opacity = 1
+			}
+		}
+	}
+	function hide_download_menu(event){
+		let div = document.querySelector("#downloadMenu")
+		let path = event.path || (event.composedPath && event.composedPath());
+		if (!path.includes(div)){
+			div.style.transform = "scale(0)"
+			div.style.opacity = 0
+			setTimeout(function(){
+				document.body.onclick = ""
+			}, 50)
+			timer = setTimeout(function(){
+				div.style.visablility = "hidden"
+			}, 400)
+		}
+	}
+
+	chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+		createDownloadMenu([])
+		fetch(message.url + "#").then((response) => {
+			const reader = response.body.getReader();
+			return reader.read()
+		})
+		.then(data=>{
+			var string = new TextDecoder().decode(data.value);
+			return string
+		})
+		.then(data=>{
+			var parser = new m3u8Parser.Parser();
+			parser.push(data);
+			parser.end();
+			let arr = [];
+			for (const video of parser.manifest.playlists) {
+				let absoluteUrl = new URL(video.uri, message.url)
+				let temp = {
+					"fps": video.attributes['FRAME-RATE'],
+					"resolution": video.attributes.RESOLUTION,
+					"url": absoluteUrl.href
+				}
+				arr.push(temp)
+			}
+			createDownloadMenu(arr)
+		})
+	});
+}
