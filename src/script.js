@@ -65,12 +65,12 @@ function createDownloadMenu(array){
 	}
 
 	if (array.length > 0){
-		chrome.storage.sync.get({m3u8: false}, results => {
+		chrome.storage.sync.get({m3u8: false, downloader: true}, results => {
 			let div_target = document.querySelector("#downloadMenu")
 			let elements = []
 			for (const e of array) {
 				let title = `${e.resolution.height}p${e.fps}`
-				let element = makeLink(title, e.url, results.m3u8);
+				let element = makeLink(title, e.url, results);
 				elements.push(element);
 			}
 			div_target.innerHTML = ""
@@ -79,15 +79,8 @@ function createDownloadMenu(array){
 	}
 }
 
-function makeLink(title, href, m3u8){
+function makeLink(title, href, settings){
 	let a = document.createElement("a")
-	a.href = href
-
-	if (m3u8){
-		let name = document.querySelector(".film-name").innerHTML
-		let episode = document.querySelector(".block_area-episodes .ep-item.active").innerText
-		a.href = `m3u8://?url=${href}&name=${name}_ep${episode}`
-	}
 
 	a.style.display = "block"
 	a.style.color = "white"
@@ -97,6 +90,9 @@ function makeLink(title, href, m3u8){
 	a.style.transition = "0.2s"
 	a.style.cursor = "pointer"
 	a.style.textAlign = "center"
+	a.style.position = "relative"
+	a.style.overflow = "hidden"
+	a.style.transition = "0.15s"
 
 	a.onmouseover = _=>{
 		a.style.background = "#5a2e98"
@@ -107,8 +103,69 @@ function makeLink(title, href, m3u8){
 
 	let span = document.createElement("span")
 	span.innerHTML = title
+	span.style.userSelect = "none"
+
+	let down = document.createElement("div")
+	down.style.background = "#5a2e98"
+	down.style.position = "absolute"
+	down.style.zIndex = "-1"
+	down.style.top = 0
+	down.style.left = 0
+	down.style.height = "100%"
 
 	a.appendChild(span)
+	a.appendChild(down)
+
+	let name = document.querySelector(".film-name").innerHTML
+	let episode = document.querySelector(".block_area-episodes .ep-item.active").innerText
+	
+	if (settings.m3u8){
+		a.href = `m3u8://?url=${href}&name=${name}_ep${episode}`
+	}
+	else if (settings.downloader){
+		function initDownload(){
+			a.onmouseover = _=>{
+				a.style.background = "#5a2e98"
+			}
+			a.onmouseout = _=>{
+				a.style.background = ""
+			}
+			a.style.outline = ""
+			a.style.background = ""
+			down.style.width = ""
+			a.onclick =_=>{
+				a.onmouseover = _=>{}
+				a.onmouseout = _=>{}
+				a.style.background = ""
+				a.style.outline = "1px solid #5a2e98"
+
+				const m3u8 = new M3U8();
+				const download = m3u8.start(href + "#", {filename: `${name}_ep${episode}.mp4` });
+
+				a.onclick =_=>{
+					download.abort()
+				}
+
+				download.on("progress", progress => {
+					down.style.width = `${progress.percentage}%`
+				}).on("finished", finished => {
+					
+				}).on("error", message => {
+					console.error(message);
+					a.style.outline = ""
+					a.style.background = "red"
+					setTimeout(initDownload, 2500)
+				}).on("aborted", _=>{
+					initDownload()
+				})
+			}
+		}
+		initDownload()
+	}
+	else{
+		a.href = href
+	}
+
 	return a;
 }
 
@@ -151,14 +208,7 @@ function hide_download_menu(event){
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 	createDownloadMenu([])
-	fetch(message.url + "#").then((response) => {
-		const reader = response.body.getReader();
-		return reader.read()
-	})
-	.then(data=>{
-		var string = new TextDecoder().decode(data.value);
-		return string
-	})
+	fetch(message.url + "#").then((r) => {return r.text()})
 	.then(data=>{
 		var parser = new m3u8Parser.Parser();
 		parser.push(data);

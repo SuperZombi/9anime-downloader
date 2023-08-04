@@ -17,11 +17,8 @@
   6. Select the path to the ```src``` folder.
 
 
-## How to Use:
-  1. The plugin gives a stream in `m3u8` format.
-  2. Copy the stream link or download it.
-  3. Download it using [this program](https://github.com/SuperZombi/.m3u8).
-
+## Integration:
+  Starting from version `3.0`, the plugin can download videos on its own, but you can also use [m3u8-downloader](https://github.com/SuperZombi/m3u8-downloader) or just get a link on `m3u8` file.
 <hr>
 
 #### 💲Donate

@@ -25,6 +25,16 @@ label input[type="checkbox"]{
 	transform: scale(0.9);
 	margin-right: 5px !important;
 }
+.beta{
+	background: red;
+	font-family: monospace;
+	font-size: 0.5em;
+	font-weight: bold;
+	border-radius: 6px;
+	padding: 2px 4px;
+	vertical-align: super;
+	text-transform: uppercase;
+}
 
 #save {
 	display: block;

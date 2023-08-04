@@ -25,7 +25,7 @@ function obserse(element, arr){
   }
 }
 
-chrome.storage.sync.get({ m3u8: false }, results => {
+chrome.storage.sync.get({ m3u8: false, downloader: true }, results => {
   let labels = document.getElementById("main-wraper").getElementsByTagName("label")
   Object.keys(labels).forEach(function(e){
     let input = labels[e].getElementsByTagName("input")[0]

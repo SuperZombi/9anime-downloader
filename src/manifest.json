@@ -1,6 +1,6 @@
 {
    "manifest_version": 3,
-   "version": "2.0.0",
+   "version": "3.0.0",
    "name": "9Anime Downloader",
    "description": "Download anime from 9animetv",
    "icons": {
@@ -25,7 +25,8 @@
       "matches": ["https://9animetv.to/watch/*"],
       "js": [
          "script.js", 
-         "m3u8-parser.min.js"
+         "m3u8-parser.min.js",
+         "m3u8-downloader.js"
       ],
       "run_at": "document_end"
    }]
