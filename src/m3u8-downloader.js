@@ -67,12 +67,11 @@ function M3U8() {
                 })
                 .then(function(d) {
 
-                    var parser = new m3u8Parser.Parser();
-                    parser.push(d);
-                    parser.end();
+                    const segmentReg = /^(?!#)(.+)\.(.+)$/gm;
+                    const segments = d.match(segmentReg);
 
-                    var mapped = map(parser.manifest.segments, function(v, i) {
-                        let temp_url = new URL(v.uri, url) // absolute url
+                    var mapped = map(segments, function(v, i) {
+                        let temp_url = new URL(v, url) // absolute url
                         return temp_url.href
                     });
 
