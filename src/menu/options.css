@@ -21,7 +21,8 @@ label{
 	flex-wrap: wrap;
 	width: 100%;
 }
-label input[type="checkbox"]{
+label input[type="checkbox"],
+label input[type="radio"]{
 	transform: scale(0.9);
 	margin-right: 5px !important;
 }

@@ -25,11 +25,16 @@ function obserse(element, arr){
   }
 }
 
-chrome.storage.sync.get({ m3u8: false, downloader: true }, results => {
+chrome.storage.sync.get({ downloader: "self" }, results => {
   let labels = document.getElementById("main-wraper").getElementsByTagName("label")
   Object.keys(labels).forEach(function(e){
     let input = labels[e].getElementsByTagName("input")[0]
-    input.checked = results[input.id]
+    if (input.type == "checkbox"){
+      input.checked = results[input.id]
+    }
+    else if (input.type == "radio"){
+      if (input.value == results[input.name]){input.checked=true}
+    }
     labels[e].onclick = function(){obserse(labels[e], results)}
   })
 
@@ -38,7 +43,12 @@ chrome.storage.sync.get({ m3u8: false, downloader: true }, results => {
     let settings = {};
     Object.keys(labels).forEach(function(e){
       let input = labels[e].getElementsByTagName("input")[0]
-      settings[input.id] = input.checked;
+      if (input.type == "checkbox"){
+        settings[input.id] = input.checked;
+      }
+      else if (input.type == "radio" && input.checked){
+        settings[input.name] = input.value;
+      }
     })
 
     chrome.storage.sync.set(settings, _ => {

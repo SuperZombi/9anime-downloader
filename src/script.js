@@ -65,12 +65,12 @@ function createDownloadMenu(array){
 	}
 
 	if (array.length > 0){
-		chrome.storage.sync.get({m3u8: false, downloader: true}, results => {
+		chrome.storage.sync.get({ downloader: "self" }, results => {
 			let div_target = document.querySelector("#downloadMenu")
 			let elements = []
 			for (const e of array) {
 				let title = `${e.resolution.height}p${e.fps}`
-				let element = makeLink(title, e.url, results);
+				let element = makeLink(title, e.url, results.downloader);
 				elements.push(element);
 			}
 			div_target.innerHTML = ""
@@ -79,7 +79,7 @@ function createDownloadMenu(array){
 	}
 }
 
-function makeLink(title, href, settings){
+function makeLink(title, href, downloader){
 	let a = document.createElement("a")
 
 	a.style.display = "block"
@@ -119,10 +119,10 @@ function makeLink(title, href, settings){
 	let name = document.querySelector(".film-name").innerHTML
 	let episode = document.querySelector(".block_area-episodes .ep-item.active").innerText
 	
-	if (settings.m3u8){
+	if (downloader == "m3u8"){
 		a.href = `m3u8://?url=${href}&name=${name}_ep${episode}`
 	}
-	else if (settings.downloader){
+	else if (downloader == "self"){
 		function initDownload(){
 			a.onmouseover = _=>{
 				a.style.background = "#5a2e98"
