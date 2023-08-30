@@ -3,6 +3,9 @@
     <img align="left" src="https://shields.io/badge/version-v3.0.1-blue">
     <a href="#donate">💲Support the Project</a>
 </p>
+
+> Doesn't work after site rebranded to [aniwave.to](https://aniwave.to/)
+
 <p align="center">
     <img src="github/images/main.png"  width="500px">
 </p>
