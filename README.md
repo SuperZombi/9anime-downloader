@@ -6,6 +6,8 @@
 
 > Doesn't work after site rebranded to [aniwave.to](https://aniwave.to/)
 
+<br>
+
 <p align="center">
     <img src="github/images/main.png"  width="500px">
 </p>
